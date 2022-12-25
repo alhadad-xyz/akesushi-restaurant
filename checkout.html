@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="assets/img/favicon.png"
+      type="image/x-icon"
+    />
+
+    <!--=============== REMIXICONS ===============-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/checkout.css" />
+
+    <title>Akesushi Restaurant</title>
+  </head>
+  <body>
+    <!--==================== MAIN ====================-->
+    <main class="main">
+      <!--==================== checkout ====================-->
+      <section class="checkout section">
+        <div class="checkout__container container">
+          <div class="checkout__content grid">
+            <div class="checkout__data">
+              <h2 class="section__title">Billing Address</h2>
+
+              <form action="" class="checkout__form">
+                <label class="checkout__label"
+                  ><i class="ri-user-line"></i> Fullname</label
+                >
+                <input
+                  type="text"
+                  name="fullname"
+                  placeholder="Fullname"
+                  class="checkout__input"
+                  required
+                />
+                <label class="checkout__label"
+                  ><i class="ri-mail-line"></i> Email</label
+                >
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  class="checkout__input"
+                  required
+                />
+                <label class="checkout__label"
+                  ><i class="ri-home-line"></i> Address</label
+                >
+                <textarea
+                  name="address"
+                  class="checkout__input"
+                  required
+                  id="address"
+                  cols="30"
+                  rows="3"
+                ></textarea>
+                <label class="checkout__label"
+                  ><i class="ri-building-line"></i> City</label
+                >
+                <input
+                  type="text"
+                  name="city"
+                  placeholder="city"
+                  class="checkout__input"
+                  required
+                />
+                <div class="checkout__address">
+                  <div class="checkout__state">
+                    <label class="checkout__label"
+                      ><i class="ri-map-2-line"></i> State</label
+                    >
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="city"
+                      class="checkout__input"
+                      required
+                    />
+                  </div>
+                  <div class="checkout__state">
+                    <label class="checkout__label"
+                      ><i class="ri-bookmark-fill"></i> Zip</label
+                    >
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="city"
+                      class="checkout__input"
+                      required
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="checkout__data">
+              <h2 class="section__title">Payment</h2>
+              <form action="" class="checkout__form">
+                <label class="checkout__label">Accepted Card</label>
+                <div class="checkout__card">
+                  <img src="assets/img/footer-card-1.png" alt="footer image" />
+                  <img src="assets/img/footer-card-2.png" alt="footer image" />
+                  <img src="assets/img/footer-card-3.png" alt="footer image" />
+                  <img src="assets/img/footer-card-4.png" alt="footer image" />
+                </div>
+                <label class="checkout__label"
+                  ><i class="ri-user-line"></i> Method</label
+                >
+                <select
+                  name="fullname"
+                  placeholder="Fullname"
+                  class="checkout__input"
+                  required
+                >
+                  <option value="bca">Bank Central Asia (BCA)</option>
+                  <option value="bni">Bank Negara Indonesia (BNI)</option>
+                  <option value="bri">Bank Rakyat Indonesia (BRI)</option>
+                  <option value="mandiri">Bank Mandiri</option>
+                  <option value="permata">Bank Permata</option>
+                </select>
+              </form>
+            </div>
+
+            <div class="checkout__data">
+              <h2 class="section__title">Cart Details</h2>
+              <div class="checkout__result">
+                <div id="checkout-result"></div>
+                <div class="checkout__item">
+                  <h1 class="checkout__total">Total</h1>
+                  <h1 class="checkout__total" id="checkout-sum">12000</h1>
+                </div>
+              </div>
+            </div>
+
+            <button class="button checkout__button" onclick="payment">
+              Continue to Checkout
+            </button>
+          </div>
+
+          <img
+            src="assets/img/spinach-leaf.png"
+            alt="checkout image"
+            class="checkout__spinach"
+          />
+        </div>
+      </section>
+    </main>
+
+    <!--========== SCROLL UP ==========-->
+    <a href="#" class="scrollup" id="scroll-up">
+      <i class="ri-arrow-up-line"></i>
+    </a>
+
+    <!--=============== PRODUCT JS ===============-->
+    <script src="assets/js/products.js"></script>
+
+    <!--=============== CHECKOUT JS ===============-->
+    <script src="assets/js/checkout.js"></script>
+
+    <!----===============SCROLLREVEAL ===============-->
+    <script src="assets/js/scrollreveal.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
