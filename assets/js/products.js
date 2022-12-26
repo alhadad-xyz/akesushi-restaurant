@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function allProduct() {
-  fetch("https://akesushi-backend-production.up.railway.app/v1/products")
+  fetch("https://akesushi-admin.up.railway.app/v1/products")
     .then((response) => response.json())
     .then((data) => renderProduct(data));
 }
