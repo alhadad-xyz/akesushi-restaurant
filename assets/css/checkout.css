@@ -313,6 +313,11 @@ textarea.checkout__input {
     cursor: pointer;
 }
 
+.checkout__cancel {
+    cursor: pointer;
+    background-color: hsl(16, 59%, 33%);
+}
+
 .checkout__spinach {
     width: 30px;
     position: absolute;
@@ -371,6 +376,11 @@ textarea.checkout__input {
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
 @media screen and (min-width: 340px) {
+    .grid {
+        display: flex;
+        flex-direction: column;
+    }
+
     .container{
         margin-inline: 1rem;
     }
@@ -400,7 +410,7 @@ textarea.checkout__input {
         border-radius: 4rem;
     }
 
-    .checkout__button {
+    .checkout__button, .checkout__cancel {
         justify-content: center;
     }
 }
@@ -415,6 +425,10 @@ textarea.checkout__input {
 
 /* For large devices */
 @media  screen and (min-width: 1024px) {
+    .grid {
+        display: grid;
+    }
+
     .section {
         padding-block: 7rem 1.5rem;
     }

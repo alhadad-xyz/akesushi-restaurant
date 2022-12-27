@@ -144,6 +144,10 @@
             <button class="button checkout__button" onclick="payment">
               Continue to Checkout
             </button>
+
+            <a href="/" class="button checkout__cancel">
+              Cancel
+            </a>
           </div>
 
           <img
@@ -160,16 +164,37 @@
       <i class="ri-arrow-up-line"></i>
     </a>
 
-    <!--=============== PRODUCT JS ===============-->
-    <script src="assets/js/products.js"></script>
-
-    <!--=============== CHECKOUT JS ===============-->
-    <script src="assets/js/checkout.js"></script>
-
     <!----===============SCROLLREVEAL ===============-->
     <script src="assets/js/scrollreveal.min.js"></script>
 
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        itemList();
+        document.getElementById("checkout-sum").textContent = priceFormat(sum);
+      });
+
+      sr.reveal(".checkout__container");
+
+      let checkoutContainer = document.getElementById("checkout-result");
+
+      function itemList() {
+        if (Object.keys(myCart).length != 0) {
+          for (let id in myCart) {
+            let item = myCart[id];
+            checkoutContainer.innerHTML += `
+              <div class="checkout__item">
+                <label class="checkout__label">${item.name} ${item.qty}x</label>
+                <label class="checkout__label">${priceFormat(
+                  item.price * item.qty
+                )}</label>
+              </div>
+            `;
+          }
+        }
+      }
+
+    </script>
   </body>
 </html>

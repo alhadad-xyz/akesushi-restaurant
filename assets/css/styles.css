@@ -441,6 +441,7 @@ body.dark-theme {
     font-family: var(--body-font);
     border: none;
     outline: none;
+    cursor: pointer;
   }
   /* Show cart */
   .show-cart {
