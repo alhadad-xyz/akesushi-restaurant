@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--==id="viewport" content="width=device-width, initial-scale=1.0" />
     <!--=============== FAVICON ===============-->
     <link
       rel="shortcut icon"
@@ -38,6 +39,7 @@
                 <input
                   type="text"
                   name="fullname"
+                  id="fullname"
                   placeholder="Fullname"
                   class="checkout__input"
                   required
@@ -48,6 +50,7 @@
                 <input
                   type="email"
                   name="email"
+                  id="email"
                   placeholder="Email"
                   class="checkout__input"
                   required
@@ -57,7 +60,9 @@
                 >
                 <textarea
                   name="address"
+                  id="address"
                   class="checkout__input"
+                  placeholder="address"
                   required
                   id="address"
                   cols="30"
@@ -69,6 +74,7 @@
                 <input
                   type="text"
                   name="city"
+                  id="city"
                   placeholder="city"
                   class="checkout__input"
                   required
@@ -80,8 +86,9 @@
                     >
                     <input
                       type="text"
-                      name="city"
-                      placeholder="city"
+                      name="state"
+                      id="state"
+                      placeholder="state"
                       class="checkout__input"
                       required
                     />
@@ -92,8 +99,9 @@
                     >
                     <input
                       type="text"
-                      name="city"
-                      placeholder="city"
+                      name="zip"
+                      id="zip"
+                      placeholder="zip"
                       class="checkout__input"
                       required
                     />
@@ -116,11 +124,13 @@
                   ><i class="ri-user-line"></i> Method</label
                 >
                 <select
-                  name="fullname"
-                  placeholder="Fullname"
+                  name="method"
+                  id="method"
+                  placeholder="method"
                   class="checkout__input"
                   required
                 >
+                  <option value="">Select Payment Method</option>
                   <option value="bca">Bank Central Asia (BCA)</option>
                   <option value="bni">Bank Negara Indonesia (BNI)</option>
                   <option value="bri">Bank Rakyat Indonesia (BRI)</option>
@@ -135,13 +145,17 @@
               <div class="checkout__result">
                 <div id="checkout-result"></div>
                 <div class="checkout__item">
+                  <h1 class="checkout__label">unique Key</h1>
+                  <h1 class="checkout__label" id="checkout-unique-key">0</h1>
+                </div>
+                <div class="checkout__item">
                   <h1 class="checkout__total">Total</h1>
-                  <h1 class="checkout__total" id="checkout-sum">12000</h1>
+                  <h1 class="checkout__total" id="checkout-sum">0</h1>
                 </div>
               </div>
             </div>
 
-            <button class="button checkout__button" onclick="payment">
+            <button class="button checkout__button" onclick="checkout()">
               Continue to Checkout
             </button>
 
@@ -170,9 +184,13 @@
     <!--=============== MAIN JS ===============-->
     <script src="assets/js/main.js"></script>
     <script>
+      const uniqueKey = Math.floor(Math.random()*(999-100+1)+100);
+      const total = sum + uniqueKey;
+
       document.addEventListener("DOMContentLoaded", () => {
         itemList();
-        document.getElementById("checkout-sum").textContent = priceFormat(sum);
+        document.getElementById("checkout-unique-key").textContent = priceFormat(uniqueKey);
+        document.getElementById("checkout-sum").textContent = priceFormat(total);
       });
 
       sr.reveal(".checkout__container");
@@ -192,9 +210,70 @@
               </div>
             `;
           }
+        } else {
+          window.location.href = '/'
         }
       }
 
+      function checkout() {
+        const fullname = document.getElementById("fullname").value
+        const email = document.getElementById("email").value
+        const address = document.getElementById("address").value
+        const city = document.getElementById("city").value
+        const state = document.getElementById("state").value
+        const zip = document.getElementById("zip").value
+        const bank = document.getElementById("method").value
+        
+        const date = new Date().toISOString().replace("-", "").split("T")[0].replace("-", "")
+        const invoice = "INV-" + date + uniqueKey;
+
+        let products = [];
+        for (const id in myCart) {
+          let item = myCart[id];
+          product = {
+            'id': id,
+            'qty': item.qty 
+          }
+          products.push(product)
+        }
+
+        let customer = {
+          'fullname': fullname,
+          'email': email,
+          'address': address,
+          'city': city,
+          'state': state,
+          'zip': zip
+        }
+
+        if(fullname == '' || email == '' || address == '' || city == '' || state == '' || zip == '' || method == '') {
+          document.querySelectorAll('input').forEach(e => e.reportValidity())
+        } else {
+          fetch('https://akesushi-admin.up.railway.app/v1/transactions/create', {
+            method: 'POST',
+            body: JSON.stringify({
+              invoice: invoice,
+              date: new Date().toISOString().split("T")[0],
+              total: total,
+              bank: bank,
+              customer: customer,
+              products: products
+            }),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            localStorage.removeItem("myCart");
+            localStorage.removeItem("sum");
+            localStorage.removeItem("count");
+            window.alert('Invoice has been sent, please check your email!');
+            window.location.href='/';
+          })
+          .catch(error => console.error('Error:', error));
+        }
+      }
     </script>
   </body>
 </html>
