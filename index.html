@@ -560,19 +560,19 @@
           let image = product.image;
 
           container.innerHTML += `
-      <article class="popular__card">
-        <img src="${image}" alt="popular image" class="popular__img">
-    
-        <h3 class="popular__name">${name}</h3>
-        <span class="popular__description">${description}</span>
-        <span class="popular__price">${priceFormat(price)}</span>
-        <button class="popular__button" onclick="addToCart('${encodeURIComponent(
-          JSON.stringify(product)
-        )}')">
-            <i class="ri-shopping-bag-line"></i>
-        </button>
-      </article>
-    `;
+            <article class="popular__card">
+              <img src="${image}" alt="popular image" class="popular__img">
+          
+              <h3 class="popular__name">${name}</h3>
+              <span class="popular__description">${description}</span>
+              <span class="popular__price">${priceFormat(price)}</span>
+              <button class="popular__button" onclick="addToCart('${encodeURIComponent(
+                JSON.stringify(product)
+              )}')">
+                  <i class="ri-shopping-bag-line"></i>
+              </button>
+            </article>
+          `;
         });
       }
 
@@ -696,7 +696,7 @@
 
       function checkout() {
         if (Object.keys(myCart).length != 0) {
-          window.location.href = "/checkout.html";
+          window.location.href = "checkout.html";
         } else {
           alert("Your cart is empty, please get some item please!");
         }

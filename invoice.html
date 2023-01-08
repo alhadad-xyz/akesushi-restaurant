@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Invoice Template Design</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/invoice.css">
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="invoice_wrapper">
+		<div class="header">
+			<div class="logo_invoice_wrap">
+				<div class="logo_sec">
+					<img src="/assets/img/logo.png" alt="code logo">
+					<div class="title_wrap">
+						<p class="title bold">Akesushi</p>
+						<p class="sub_title">Restaurant</p>
+					</div>
+				</div>
+				<div class="invoice_sec">
+					<p class="invoice bold">INVOICE</p>
+					<p class="invoice_no">
+						<span class="bold">Invoice</span>
+						<span id="invoice_number">#3488</span>
+					</p>
+					<p class="date">
+						<span class="bold">Date</span>
+						<span id="invoice_date">08/Jan/2022</span>
+					</p>
+				</div>
+			</div>
+			<div class="bill_total_wrap">
+				<div class="bill_sec">
+					<p>Bill To</p> 
+	          		<p class="bold name" id="customer_name"></p>
+			        <span id="customer_address">
+			        </span>
+							<br/>
+			        <span id="customer_email">
+			        </span>
+				</div>
+				<div class="total_wrap">
+					<p>Total Due</p>
+	          		<p class="bold price" id="total">USD: $1200</p>
+				</div>
+			</div>
+		</div>
+		<div class="body">
+			<div class="main_table">
+				<div class="table_header">
+					<div class="row">
+						<div class="col col_no">NO.</div>
+						<div class="col col_des">ITEM DESCRIPTION</div>
+						<div class="col col_price">PRICE</div>
+						<div class="col col_qty">QTY</div>
+						<div class="col col_total">TOTAL</div>
+					</div>
+				</div>
+				<div class="table_body" id="products">
+				</div>
+			</div>
+			<div class="paymethod_grandtotal_wrap">
+				<div class="paymethod_sec">
+					<p class="bold">Payment Method</p>
+					<p id="invoice_bank">Bank : 091231232</p>
+					<p id="invoice_va">Virtual Account : 091231232</p>
+				</div>
+				<div class="grandtotal_sec">
+			       	<p class="bold">
+			            <span>Total</span>
+			            <span id="grand_total"></span>
+			        </p>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<p>Thank you</p>
+			<div class="terms">
+		        <p class="tc bold">Terms & Coditions</p>
+		        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit non praesentium doloribus. Quaerat vero iure itaque odio numquam, debitis illo quasi consequuntur velit, explicabo esse nesciunt error aliquid quis eius!</p>
+		    </div>
+		</div>
+	</div>
+</div>
+	<script src="assets/js/scrollreveal.min.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script>
+	let url = window.location.href
+	let invoices = url.split('=')
+	let invoice = invoices[1]
+
+	if(invoice) {
+			fetch("https://akesushi-admin.up.railway.app/v1/transactions/show/" + invoice)
+				.then((response) => response.json())
+				.then(([data]) => {
+					if(data) {
+						let customerName = document.getElementById('customer_name')
+						let customerAddress = document.getElementById('customer_address')
+						let customerEmail = document.getElementById('customer_email')
+						let total = document.getElementById('total')
+						let Grandtotal = document.getElementById('grand_total')
+						let invoiceNumber = document.getElementById('invoice_number')
+						let invoiceDate = document.getElementById('invoice_date')
+						let invoiceBank = document.getElementById('invoice_bank')
+						let invoiceVa = document.getElementById('invoice_va')
+						let products = document.getElementById('products')
+						customerName.innerHTML = data.customer.fullname
+						customerAddress.innerHTML = data.customer.address + ', ' + data.customer.city
+						customerEmail.innerHTML = data.customer.email
+						total.innerHTML = priceFormat(data.total)
+						Grandtotal.innerHTML = priceFormat(data.total)
+						invoiceNumber.innerHTML = data.invoice
+						invoiceDate.innerHTML = data.date.split('T')[0]
+						invoiceBank.innerHTML = 'BANK : ' + data.bank.toUpperCase()
+						invoiceVa.innerHTML = 'VA : ' + data.account_number
+						data.products.forEach((product, index) => {
+							fetch("https://akesushi-admin.up.railway.app/v1/products/show/" + product.id)
+								.then((response) => response.json())
+								.then((value) => {
+									console.log(value)
+									products.innerHTML += `
+									<div class="row">
+										<div class="col col_no">
+											<p>${index + 1}</p>
+										</div>
+										<div class="col col_des">
+											<p class="bold">${value.name}</p>
+											<p>${value.subtitle}</p>
+										</div>
+										<div class="col col_price">
+											<p>${priceFormat(value.price)}</p>
+										</div>
+										<div class="col col_qty">
+											<p>${product.qty}</p>
+										</div>
+										<div class="col col_total">
+											<p>${priceFormat(value.price * product.qty)}</p>
+										</div>
+									</div>
+									`
+								})
+						})
+					} else {
+						window.location.href = '/'
+					}
+				});
+	}
+
+</script>
+</body>
+</html>

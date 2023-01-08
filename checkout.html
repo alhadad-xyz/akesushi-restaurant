@@ -269,7 +269,7 @@
             localStorage.removeItem("sum");
             localStorage.removeItem("count");
             window.alert('Invoice has been sent, please check your email!');
-            window.location.href='/';
+            window.history.back();
           })
           .catch(error => console.error('Error:', error));
         }
